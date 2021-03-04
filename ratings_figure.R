@@ -8,15 +8,15 @@ library(ggrepel)
 library(irr)
 
 ## Get raw codings from google sheets
-ratings = read_sheet("https://docs.google.com/spreadsheets/d/10E-UD8nSFG8n2ivLoYRSmfLK4Txgl1pWgUrd0xXhM_U/edit#gid=0")
+ratings = read.csv("https://raw.githubusercontent.com/comp-music-lab/social-bonding/main/Ratings%20of%20Savage%20and%20Mehr%20commentaries.csv")
 
 # give Savage responses numbers & Mehr responses letters
 ratings$ID = c(1:35, LETTERS[1:25])
 
 # get all columns rating Savage et al.
-savage_idx  = str_detect(colnames(ratings), pattern = "Savage et al.")
+savage_idx  = str_detect(colnames(ratings), pattern = "Savage.et.al.")
 # get all columns rating Mehr et al. 
-mehr_idx    = str_detect(colnames(ratings), pattern = "Mehr et al.")
+mehr_idx    = str_detect(colnames(ratings), pattern = "Mehr.et.al.")
 
 colnames(ratings)[savage_idx]
 colnames(ratings)[mehr_idx]
@@ -33,7 +33,7 @@ cat("ICC Agreement amongst Savage et al. ratings:", round(savage_icc$value, 2))
 cat("ICC Agreement amongst Mehr et al. ratings:", round(mehr_icc$value, 2))
 cat("ICC Agreement amongst all ratings:", round(combined_icc$value, 2))
 
-plot_df = data.frame(article = ratings$`Target article`,
+plot_df = data.frame(article = ratings$Target.article,
                      author = ratings$Authors,
                      savage = average_savage,
                      mehr = average_mehr,
